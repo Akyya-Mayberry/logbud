@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Sample Logging Interface</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+    <link href="{{ url_for('static', filename='css/logging_interface.css') }}" type="text/css" rel="stylesheet">
+  </head>
+  <body>
+{# TOP NAVIGATION BAR #}
+    <div class="collapse bg-inverse" id="navbarHeader">
+      <div class="container">
+        <div class="row">
+          <div class="col-sm-8 py-4">
+            <h4 class="text-white">About</h4>
+            <p class="text-muted">Add some information about the album below, the author, or any other background context. Make it a few sentences long so folks can pick up some informative tidbits. Then, link them off to some social networking sites or contact information.</p>
+          </div>
+          <div class="col-sm-4 py-4">
+            <h4 class="text-white">Sample Menu</h4>
+            <ul class="list-unstyled">
+              <li><a href="#" class="text-white">Search</a></li>
+              <li><a href="#" class="text-white">Generate Reports</a></li>
+              <li><a href="#" class="text-white">Contact Support</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="navbar navbar-inverse" style="background-color: rgba(237, 159, 171, 0.9);">
+      <div class="container d-flex justify-content-between">
+        <a href="#" class="navbar-brand">Sample Logging Interface</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarHeader" aria-controls="navbarHeader" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      </div>
+    </div>
+{# VISITOR LOGIN FORM #}
+    <div class="container">
+        <form class="form-signin">
+            <h1 class="jumbotron-heading text-center">Log in a Visitor</h1>
+            <label for="inputEmail" class="sr-only">First Name</label>
+            <input type="email" id="inputEmail" class="form-control" placeholder="First Name" required autofocus>
+            <label for="inputPassword" class="sr-only">Lastname</label>
+            <input type="password" id="inputPassword" class="form-control" placeholder="Last Name" required>
+            <input type="password" id="inputPassword" class="form-control" placeholder="Fullname of Visited" required>
+            <input type="password" id="inputPassword" class="form-control" placeholder="Reason for Visit" required>
+            <button class="btn btn-lg btn-primary btn-block muted" type="submit" style="background-color: grey; border: none;">Sign in</button>
+        </form>
+    </div>
+{# ACTIVE VISITORS #}
+    <div class="album text-muted">
+      <div class="container">
+      <h1 style="text-align: center; font-size: 4vw;">Visitors Currently Logged In</h1>
+        <div class="row">
+          <div class="card">
+            <img src="{{ url_for('static', filename='img/kestrel.jpg') }}" alt="Card image cap" class="img-fluid" alt="Responsive image">
+            <p class="card-text">Rebecca Longhorn</p>
+          </div>
+          <div class="card">
+            <img src="{{ url_for('static', filename='img/man1.jpg') }}" alt="Card image cap" class="img-fluid" alt="Responsive image">
+            <p class="card-text">Jeff Beckom</p>
+          </div>
+          <div class="card">
+            <img src="{{ url_for('static', filename='img/lady1.jpg') }}" alt="Card image cap" class="img-fluid" alt="Responsive image">
+            <p class="card-text">Tonya Marks</p>
+          </div>
+          <div class="card">
+            <img src="{{ url_for('static', filename='img/lady2.jpg') }}" alt="Card image cap" class="img-fluid" alt="Responsive image">
+            <p class="card-text">Kate Bourne</p>
+          </div>
+          <div class="card">
+            <img src="{{ url_for('static', filename='img/kestrel.jpg') }}" alt="Card image cap" class="img-fluid" alt="Responsive image">
+            <p class="card-text">Phillip Whitman</p>
+          </div>
+          <div class="card">
+            <img src="{{ url_for('static', filename='img/man2.jpg') }}" alt="Card image cap" class="img-fluid" alt="Responsive image">
+            <p class="card-text">Donny Black</p>
+          </div>
+          <div class="card">
+            <img src="{{ url_for('static', filename='img/man3.jpg') }}" alt="Card image cap" class="img-fluid" alt="Responsive image">
+            <p class="card-text">Terry Parsons</p>
+          </div>
+          <div class="card">
+            <img src="{{ url_for('static', filename='img/girl1.jpg') }}" alt="Card image cap" class="img-fluid" alt="Responsive image">
+            <p class="card-text">Gina Hill</p>
+          </div>
+          <div class="card">
+            <img src="{{ url_for('static', filename='img/kestrel.jpg') }}" alt="Card image cap" class="img-fluid" alt="Responsive image">
+            <p class="card-text">Luis Guerro</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

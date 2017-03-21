@@ -65,17 +65,3 @@ body {
   background-color: #555 !important;
 }
 
-/*html,
-body,
-.view {
-  height: 100%;
-}*/
-
-.view {
-  background: url('../img/desk.jpeg')no-repeat center center fixed;
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  background-size: cover;
-}
-
