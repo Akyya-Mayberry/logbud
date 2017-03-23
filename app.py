@@ -39,9 +39,9 @@ def login():
             if user.password == form.password.data:
                 user.authenticated = True
                 user.active = True
-                login_user(user, remember=False)
+                login_user(user, remember=True)
 
-                flash('Logged in successfully.')
+                # flash('Logged in successfully.')
 
                 next = request.args.get('next')
                 # TODO:
@@ -62,15 +62,18 @@ def login():
 @login_required
 def logout():
     logout_user()
-    flash('Logged out successfully.')
+    # flash('Logged out successfully.')
     return redirect('/')
 
 
 @app.route('/logbud')
 @login_required
 def logbud():
+    form = models.VisitorSignInForm()
 
-    return render_template('logbud.html')
+    # TODO:
+        # implement
+    return render_template('logbud.html', form=form)
 
 if __name__ == "__main__":
     models.connect_to_db(app)

@@ -2,7 +2,7 @@
 
 # 3rd party libs
 from flask_sqlalchemy import SQLAlchemy
-from wtforms import StringField, PasswordField, validators, SubmitField
+from wtforms import StringField, PasswordField, validators, SubmitField, TextAreaField
 from flask_wtf import Form
 from flask_login import UserMixin
 
@@ -18,7 +18,16 @@ class LoggerLoginForm(Form):
 
     email = StringField('Email Address', [validators.Length(min=6, max=35)])
     password = PasswordField('Password')
-    submit = SubmitField('Submit')
+    # submit = SubmitField('Submit')
+
+
+class VisitorSignInForm(Form):
+    """ Sign form for visitors """
+
+    firstname = StringField('First Name')
+    lastname = StringField('Last Name')
+    visiting = StringField('Visiting')
+    purpose = TextAreaField('Reason for Visit')
 
 
 class UserProfile(db.Model, UserMixin):

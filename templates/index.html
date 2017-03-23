@@ -57,7 +57,7 @@
         </div>
         <div class="collapse navbar-collapse" id="myNavbar">
           <ul class="nav navbar-nav navbar-right">
-            <li><a href="/login">LOGIN</a></li>
+            {% if current_user.is_authenticated %}<li><a href="/logout">LOGOUT</a></li>{% else %}<li><a href="/login">LOGIN</a></li>{% endif %}
           </ul>
         </div>
       </div>
@@ -80,7 +80,7 @@
 {# FOOTER #}
     <footer class="footer">
       <div class="container">
-        <span class="text-muted">{% if current_user.is_authenticated %}<a href="/logbud">Hi {{ current_user.email | title }}!</a>{% else %} Login to start logging{% endif %}<span style="color: green;">&#9786;</span></span>
+        <span class="text-muted">{% if current_user.is_authenticated %}<a href="/logbud">Hi {{ current_user.email | title }}!</a>{% else %} <a href="/login">Login to start logging</a>{% endif %}<span style="color: green;">&#9786;</span></span>
       </div>
     </footer>
   </body>

@@ -1,67 +1,44 @@
+label, input {
+  letter-spacing: 1px;"
+}
+
 body {
-  font: 400 15px/1.8 Lato, sans-serif;
-  color: #777;
-  margin-top: 70px;
+  padding-top: 40px;
+  padding-bottom: 40px;
 }
 
-.btn {
-  padding: 10px 20px;
-  background-color: #333;
-  color: #f1f1f1;
-  border-radius: 0;
-  transition: .2s;
+.form-signin {
+  max-width: 330px;
+  padding: 15px;
+  margin: 0 auto;
+}
+.form-signin .form-signin-heading,
+.form-signin .checkbox {
+  margin-bottom: 10px;
 }
 
-.btn:hover, .btn:focus {
-  border: 1px solid #333;
-  background-color: #fff;
-  color: #000;
+.form-signin .form-control {
+  position: relative;
+  height: auto;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  padding: 10px;
+  font-size: 24px;
 }
 
-.modal-header, h4, .close {
-  background-color: #333;
-  color: #fff !important;
-  text-align: center;
-  font-size: 30px;
+.form-signin .form-control:focus {
+  z-index: 2;
 }
 
-.modal-header, .modal-body {
-  padding: 40px 50px;
-}
-
-.nav-tabs li a {
-  color: #777;
-}
-
-.navbar {
+button#submit-login {
   font-family: Montserrat, sans-serif;
-  margin-bottom: 0;
-  background-color: rgba(237, 159, 171, 0.9);
+  background-color: rgba(152, 152, 152, 1);
   border: 0;
-  font-size: 11px !important;
-  letter-spacing: 4px;
-  opacity: 0.9;
-}
-
-.navbar li a, .navbar .navbar-brand {
-  color: #d5d5d5 !important;
-}
-
-.navbar-nav li a:hover {
-  color: #fff !important;
-}
-
-.navbar-nav li.active a {
-  color: #fff !important;
-  background-color: #29292c !important;
-}
-
-.navbar-default .navbar-toggle {
-  border-color: transparent;
-}
-
-.open .dropdown-toggle {
+  border-radius: 50px;
   color: #fff;
-  background-color: #555 !important;
 }
 
+.form-control {
+  /*background-color: rgba(52, 159, 171, 0.1);*/
+  background-color: rgba(237, 159, 171, 0.1);
+}
