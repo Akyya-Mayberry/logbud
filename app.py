@@ -95,8 +95,11 @@ def logbud():
 @app.route('/log')
 @login_required
 def log():
+    """ Returns list of visitors. """
 
-    return render_template('log.html')
+    all_visitors = models.Visitor.query.all()
+
+    return render_template('log.html', visitors=all_visitors)
 
 
 if __name__ == "__main__":

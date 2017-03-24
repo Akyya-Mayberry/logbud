@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block head %}
+  <link href="{{ url_for('static', filename='css/forms.css') }}" rel="stylesheet" type="text/css">
+{% endblock head %}
+{% block content %}
+    <div class="container">
+        <div class="col-sm-12">
+            <a href="/logbud" class="form-signin-heading"><span class="glyphicon glyphicon-eye-open" style="color: rgba(0, 74, 128, .5);"></span>&nbsp;&nbsp;visitors' form</a>
+        </div>
+        <h1 class="text-center">Visitors Log</h1>
+        <table class="table table-responsive table-hover table-striped">
+            <thead class="text-center visitor-log-header">
+                <tr>
+                    <th>Firstname</th>
+                    <th>Lastname</th>
+                    <th>Visiting</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if visitors %}
+                    {% for visitor in visitors %}
+                        <tr>
+                            <td>{{ visitor.firstname }}</td>
+                            <td>{{ visitor.lastname }}</td>
+                            <td>{{ visitor.visiting }}</td>
+                        </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr class="info">
+                        <td>No visitors to have been signed in.</td>
+                    </div>
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
+{% endblock content %}

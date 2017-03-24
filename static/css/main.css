@@ -79,3 +79,11 @@ body,
   background-size: cover;
 }
 
+.visitor-log-header {
+  background-color: rgba(0, 70, 4, .1);
+}
+
+a, a:link, a:active, a:hover {
+  color: #666;
+}
+
