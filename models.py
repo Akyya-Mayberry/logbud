@@ -40,6 +40,28 @@ class UserProfile(db.Model, UserMixin):
     password = db.Column(db.String(100), nullable=True)
 
 
+class Visitor(db.Model):
+    """ Visitors model """
+
+    __tablename__ = "visitors"
+
+    id = db.Column(db.Integer, primary_key=True)
+    firstname = db.Column(db.String(50))
+    lastname = db.Column(db.String(50))
+    visiting = db.Column(db.String(50))
+    purpose = db.Column(db.String(50))
+
+    def __init__(self, firstname, lastname, visiting, purpose):
+        self.firstname = firstname
+        self.lastname = lastname
+        self.visiting = visiting
+        self.purpose = purpose
+
+    def __repr__(self):
+
+        return "%s %s visiting: %s" % (self.firstname, self.lastname, self.visiting)
+
+
 def connect_to_db(app, db_uri=None):
     """ Connect application to database """
     app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres:///logbud'

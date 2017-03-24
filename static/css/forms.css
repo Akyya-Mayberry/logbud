@@ -3,7 +3,7 @@ label, input {
 }
 
 body {
-  padding-top: 40px;
+  /*padding-top: 40px;*/
   padding-bottom: 40px;
 }
 
@@ -30,12 +30,18 @@ body {
   z-index: 2;
 }
 
-button#submit-login {
+.btn {
   font-family: Montserrat, sans-serif;
-  background-color: rgba(152, 152, 152, 1);
+  /*background-color: rgba(145, 145, 145, 1);*/
+  background-color: rgba(0, 60, 4, .4);
   border: 0;
   border-radius: 50px;
   color: #fff;
+}
+
+a.btn {
+  background-color: #999;
+    border-radius: 0;
 }
 
 .form-control {

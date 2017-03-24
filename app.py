@@ -66,14 +66,38 @@ def logout():
     return redirect('/')
 
 
-@app.route('/logbud')
+@app.route('/logbud', methods=['GET', 'POST'])
 @login_required
 def logbud():
     form = models.VisitorSignInForm()
 
     # TODO:
         # implement
+    if request.method == 'POST':
+        if form.validate_on_submit():
+            firstname = form.firstname.data
+            lastname = form.lastname.data
+            visiting = form.visiting.data
+            purpose = form.purpose.data
+
+            # Log visitor
+            new_visitor = models.Visitor(firstname=firstname, lastname=lastname, visiting=visiting, purpose=purpose)
+            models.db.session.add(new_visitor)
+            models.db.session.commit()
+
+            return redirect('/log')
+
+        flash("Form errors!")
+
     return render_template('logbud.html', form=form)
+
+
+@app.route('/log')
+@login_required
+def log():
+
+    return render_template('log.html')
+
 
 if __name__ == "__main__":
     models.connect_to_db(app)
