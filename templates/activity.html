@@ -3,12 +3,12 @@
   <link href="{{ url_for('static', filename='css/forms.css') }}" rel="stylesheet" type="text/css">
 {% endblock head %}
 {% block content %}
-    <div class="container">
+    <div class="container-fluid">
         <div class="col-sm-12">
             <a href="/logbud" class="form-signin-heading"><span class="glyphicon glyphicon-eye-open" style="color: rgba(0, 74, 128, .5);"></span>&nbsp;&nbsp;visitors' form</a>
         </div>
-        <h1 class="text-center">Current Visitors Log</h1>
-        {% if current_visitors %}
+        <h1 class="text-center">Log of All Visits</h1>
+        {% if activity %}
             <table class="table table-responsive table-hover table-striped">
                 <thead class="text-center visitor-log-header">
                     <tr>
@@ -19,7 +19,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% for visit in current_visitors %}
+                    {% for visit in activity %}
                         <tr>
                             <td><a href="/log/{{ visit.visitor.id }}"><span class="glyphicon glyphicon-user"></span></a></td>
                             <td>{{ visit.visitor.firstname }}</td>
@@ -30,7 +30,7 @@
                 </tbody>
             </table>
         {% else %}
-            <p>No visitors currently signed in.!</p>
+            <p>No visitors were ever signed in.!</p>
         {% endif %}
     </div>
 {% endblock content %}

@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block head %}
+  <link href="{{ url_for('static', filename='css/forms.css') }}" rel="stylesheet" type="text/css">
+{% endblock head %}
+{% block content %}
+<div class="container">
+  <div class="panel panel-default">
+    <div class="panel-body text-center"><h1>{{ visit.visitor.firstname | title }} {{ visit.visitor.lastname | title }}</h1></div>
+  </div>
+  <div class="panel-group">
+    <div class="panel panel-default">
+      <div class="panel-heading">Visiting</div>
+      <div class="panel-body">{{ visit.visiting }}</div>
+    </div>
+    <div class="panel panel-default">
+      <div class="panel-heading">Reason for Visit</div>
+      <div class="panel-body">{{ visit.purpose }}</div>
+    </div>
+  </div>
+  <div>
+    <a href="/signout/{{ visit.visitor.id }}" id="sign-out-visitor" class="form-control-lg btn btn-lg btn-primary btn-block">SIGN OUT</a>
+  </div>
+</div>
+{% endblock %}

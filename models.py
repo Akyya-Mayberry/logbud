@@ -2,7 +2,7 @@
 
 # 3rd party libs
 from flask_sqlalchemy import SQLAlchemy
-from wtforms import StringField, PasswordField, validators, SubmitField, TextAreaField
+from wtforms import StringField, PasswordField, validators, TextAreaField
 from flask_wtf import Form
 from flask_login import UserMixin
 
@@ -48,18 +48,41 @@ class Visitor(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     firstname = db.Column(db.String(50))
     lastname = db.Column(db.String(50))
-    visiting = db.Column(db.String(50))
-    purpose = db.Column(db.String(50))
 
-    def __init__(self, firstname, lastname, visiting, purpose):
+    def __init__(self, firstname, lastname):
         self.firstname = firstname
         self.lastname = lastname
-        self.visiting = visiting
-        self.purpose = purpose
 
     def __repr__(self):
 
-        return "%s %s visiting: %s" % (self.firstname, self.lastname, self.visiting)
+        return "Name: %s %s" % (self.firstname, self.lastname)
+
+
+class Visit(db.Model):
+    """ Logs all visits """
+
+    __tablename__ = "visits"
+
+    id = db.Column(db.Integer, primary_key=True)
+
+    visitor_id = db.Column(db.Integer, db.ForeignKey('visitors.id'))
+    visiting = db.Column(db.String(100))
+    purpose = db.Column(db.Text)
+    active = db.Column(db.Boolean, default=False)
+
+    visitor = db.relationship('Visitor', backref=db.backref('visits', lazy='dynamic'))
+
+    def __init__(self, visitor_id, visiting, purpose):
+        self.visitor_id = visitor_id
+        self.visiting = visiting
+        self.purpose = purpose
+        self.active = True
+
+    def is_active(self):
+        return self.active
+
+    def __repr__(self):
+        return "Visitor: %s, Visiting: %s, Purpose: %s" % (self.visitor_id, self.visiting, self.purpose)
 
 
 def connect_to_db(app, db_uri=None):

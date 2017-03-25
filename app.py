@@ -75,16 +75,36 @@ def logbud():
         # implement
     if request.method == 'POST':
         if form.validate_on_submit():
-            firstname = form.firstname.data
-            lastname = form.lastname.data
-            visiting = form.visiting.data
-            purpose = form.purpose.data
+            firstname = form.firstname.data.lower()
+            lastname = form.lastname.data.lower()
+            visiting = form.visiting.data.lower()
+            purpose = form.purpose.data.lower()
+
+            # Check if visitor is new
+            returning_visitor = models.Visitor.query.filter_by(firstname=firstname, lastname=lastname).first()
+            if not returning_visitor:
+                new_visitor = models.Visitor(firstname=firstname, lastname=lastname)
+                models.db.session.add(new_visitor)
+                models.db.session.commit()
+
+                new_visitor = models.Visitor.query.filter_by(firstname=firstname, lastname=lastname).first()
+
+                new_visit = models.Visit(visitor_id=new_visitor.id, visiting=visiting, purpose=purpose)
+                models.db.session.add(new_visit)
+                models.db.session.commit()
+
+                return redirect('/log')
+
+            # Returning visitor should not have active visit
+            for visit in returning_visitor.visits:
+                if visit.is_active():
+                    flash('Visitor is already logged in!')
+                    return redirect('/log/' + str(returning_visitor.id))
 
             # Log visitor
-            new_visitor = models.Visitor(firstname=firstname, lastname=lastname, visiting=visiting, purpose=purpose)
-            models.db.session.add(new_visitor)
+            new_visit = models.Visit(visitor_id=returning_visitor.id, visiting=visiting, purpose=purpose)
+            models.db.session.add(new_visit)
             models.db.session.commit()
-
             return redirect('/log')
 
         flash("Form errors!")
@@ -92,14 +112,51 @@ def logbud():
     return render_template('logbud.html', form=form)
 
 
+@app.route('/signout/<visitor_id>')
+@login_required
+def signout(visitor_id):
+    """ Signs out a visitor """
+
+    active_visits = models.Visit.query.filter_by(visitor_id=visitor_id, active=True)
+
+    if active_visits:
+        for visit in active_visits:
+            visit.active = False
+            models.db.session.commit()
+        flash('Visitor successfully logged out.')
+    else:
+        flash('Visitor is currently not signed in.')
+
+    return redirect('/log')
+
+
 @app.route('/log')
 @login_required
 def log():
-    """ Returns list of visitors. """
+    """ Returns list of current visitors. """
 
-    all_visitors = models.Visitor.query.all()
+    current_visitors = models.Visit.query.filter_by(active=True).all()
 
-    return render_template('log.html', visitors=all_visitors)
+    return render_template('log.html', current_visitors=current_visitors)
+
+
+@app.route('/log/<visitor_id>')
+@login_required
+def visitor(visitor_id):
+    """ Returns details of a visitor. """
+
+    visit = models.Visit.query.filter_by(visitor_id=visitor_id, active=True).first()
+    return render_template('visitor.html', visit=visit)
+
+
+@app.route('/log/activity')
+@login_required
+def activity():
+    """ Returns all recorded log activity. """
+
+    activity = models.Visit.query.all()
+
+    return render_template('activity.html', activity=activity)
 
 
 if __name__ == "__main__":
