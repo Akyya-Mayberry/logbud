@@ -1,18 +1,16 @@
-# Python libs
+# python std libs
+import logging
 
 # 3rd party libs
-from flask import Flask, render_template, request, redirect, flash, url_for
 from flask_login import LoginManager, login_required, login_user, logout_user
+from flask import render_template, request, redirect, flash, url_for
 
-# My libs
-import models
+# my libs
+from app import app, db
+from forms import LoggerLoginForm, VisitorSignInForm
+from models import UserProfile, Visitor, Visit
 
-
-app = Flask(__name__, static_url_path="/static")
-app.config['DEBUG'] = True
-app.config['SECRET_KEY'] = 'oribooboo'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres:///logbud'
-
+# For flask_login
 login_manager = LoginManager()
 login_manager.login_view = 'login'
 login_manager.init_app(app)
@@ -20,7 +18,7 @@ login_manager.init_app(app)
 
 @login_manager.user_loader
 def load_user(user_id):
-    return models.UserProfile.query.get(user_id)
+    return UserProfile.query.get(user_id)
 
 
 @app.route('/')
@@ -30,9 +28,9 @@ def index():
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    form = models.LoggerLoginForm()
+    form = LoggerLoginForm()
     if form.validate_on_submit():
-        user = models.UserProfile.query.filter_by(email=form.email.data).first()
+        user = UserProfile.query.filter_by(email=form.email.data).first()
 
         # Login and validate the user.
         if user:
@@ -69,7 +67,7 @@ def logout():
 @app.route('/logbud', methods=['GET', 'POST'])
 @login_required
 def logbud():
-    form = models.VisitorSignInForm()
+    form = VisitorSignInForm()
 
     # TODO:
         # implement
@@ -81,17 +79,17 @@ def logbud():
             purpose = form.purpose.data.lower()
 
             # Check if visitor is new
-            returning_visitor = models.Visitor.query.filter_by(firstname=firstname, lastname=lastname).first()
+            returning_visitor = Visitor.query.filter_by(firstname=firstname, lastname=lastname).first()
             if not returning_visitor:
-                new_visitor = models.Visitor(firstname=firstname, lastname=lastname)
-                models.db.session.add(new_visitor)
-                models.db.session.commit()
+                new_visitor = Visitor(firstname=firstname, lastname=lastname)
+                db.session.add(new_visitor)
+                db.session.commit()
 
-                new_visitor = models.Visitor.query.filter_by(firstname=firstname, lastname=lastname).first()
+                new_visitor = Visitor.query.filter_by(firstname=firstname, lastname=lastname).first()
 
-                new_visit = models.Visit(visitor_id=new_visitor.id, visiting=visiting, purpose=purpose)
-                models.db.session.add(new_visit)
-                models.db.session.commit()
+                new_visit = Visit(visitor_id=new_visitor.id, visiting=visiting, purpose=purpose)
+                db.session.add(new_visit)
+                db.session.commit()
 
                 return redirect('/log')
 
@@ -102,9 +100,9 @@ def logbud():
                     return redirect('/log/' + str(returning_visitor.id))
 
             # Log visitor
-            new_visit = models.Visit(visitor_id=returning_visitor.id, visiting=visiting, purpose=purpose)
-            models.db.session.add(new_visit)
-            models.db.session.commit()
+            new_visit = Visit(visitor_id=returning_visitor.id, visiting=visiting, purpose=purpose)
+            db.session.add(new_visit)
+            db.session.commit()
             return redirect('/log')
 
         flash("Form errors!")
@@ -117,12 +115,12 @@ def logbud():
 def signout(visitor_id):
     """ Signs out a visitor """
 
-    active_visits = models.Visit.query.filter_by(visitor_id=visitor_id, active=True)
+    active_visits = Visit.query.filter_by(visitor_id=visitor_id, active=True)
 
     if active_visits:
         for visit in active_visits:
             visit.active = False
-            models.db.session.commit()
+            db.session.commit()
         flash('Visitor successfully logged out.')
     else:
         flash('Visitor is currently not signed in.')
@@ -135,7 +133,7 @@ def signout(visitor_id):
 def log():
     """ Returns list of current visitors. """
 
-    current_visitors = models.Visit.query.filter_by(active=True).all()
+    current_visitors = Visit.query.filter_by(active=True).all()
 
     return render_template('log.html', current_visitors=current_visitors)
 
@@ -145,7 +143,7 @@ def log():
 def visitor(visitor_id):
     """ Returns details of a visitor. """
 
-    visit = models.Visit.query.filter_by(visitor_id=visitor_id, active=True).first()
+    visit = Visit.query.filter_by(visitor_id=visitor_id).first()
     return render_template('visitor.html', visit=visit)
 
 
@@ -154,11 +152,6 @@ def visitor(visitor_id):
 def activity():
     """ Returns all recorded log activity. """
 
-    activity = models.Visit.query.all()
+    activity = Visit.query.all()
 
     return render_template('activity.html', activity=activity)
-
-
-if __name__ == "__main__":
-    models.connect_to_db(app)
-    app.run()

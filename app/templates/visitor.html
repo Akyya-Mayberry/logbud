@@ -17,8 +17,10 @@
       <div class="panel-body">{{ visit.purpose }}</div>
     </div>
   </div>
-  <div>
-    <a href="/signout/{{ visit.visitor.id }}" id="sign-out-visitor" class="form-control-lg btn btn-lg btn-primary btn-block">SIGN OUT</a>
-  </div>
+  {% if visit.is_active() %}
+    <div>
+      <a href="/signout/{{ visit.visitor.id }}" id="sign-out-visitor" class="form-control-lg btn btn-lg btn-primary btn-block">SIGN OUT</a>
+    </div>
+  {% endif %}
 </div>
 {% endblock %}

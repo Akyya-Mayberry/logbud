@@ -1,3 +1,5 @@
 env
 *.pyc
 secrets
+config-prod
+instance

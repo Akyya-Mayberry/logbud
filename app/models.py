@@ -1,33 +1,11 @@
 # Python libs
 
 # 3rd party libs
-from flask_sqlalchemy import SQLAlchemy
-from wtforms import StringField, PasswordField, validators, TextAreaField
-from flask_wtf import Form
 from flask_login import UserMixin
+from flask_sqlalchemy import SQLAlchemy
 
 # My libs
-from app import app
-
-
-db = SQLAlchemy(app)
-
-
-class LoggerLoginForm(Form):
-    """ Login for logger user accounts """
-
-    email = StringField('Email Address', [validators.Length(min=6, max=35)])
-    password = PasswordField('Password')
-    # submit = SubmitField('Submit')
-
-
-class VisitorSignInForm(Form):
-    """ Sign form for visitors """
-
-    firstname = StringField('First Name')
-    lastname = StringField('Last Name')
-    visiting = StringField('Visiting')
-    purpose = TextAreaField('Reason for Visit')
+from app import db
 
 
 class UserProfile(db.Model, UserMixin):
@@ -85,10 +63,23 @@ class Visit(db.Model):
         return "Visitor: %s, Visiting: %s, Purpose: %s" % (self.visitor_id, self.visiting, self.purpose)
 
 
-def connect_to_db(app, db_uri=None):
+# def connect_to_db(app, db_uri=None):
+#     """ Connect application to database """
+#     app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres:///logbud'
+#     # app.config['SQLALCHEMY_ECHO'] = True
+#     db.app = app
+#     db.init_app(app)
+#     db.create_all(app=app)
+def connect_to_db(app):
     """ Connect application to database """
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres:///logbud'
+    app.config['SQLALCHEMY_DATABASE_URI'] = "postgres:///party"
     # app.config['SQLALCHEMY_ECHO'] = True
-    db.app = app
-    db.init_app(app)
+    # db.app = app
+    db.init_db(app)
     db.create_all(app=app)
+
+
+if __name__ == "__main__":
+    from app import app
+    connect_to_db(app)
+    print "Connected to DB."
