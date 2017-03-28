@@ -44,11 +44,13 @@ body {
 }
 
 .navbar li a, .navbar .navbar-brand {
-  color: #d5d5d5 !important;
+  color: #fff !important;
+  text-align: center;
+  text-shadow: 1px 1px #666;
 }
 
 .navbar-nav li a:hover {
-  color: #fff !important;
+  color: #d5d5d5 !important;
 }
 
 .navbar-nav li.active a {

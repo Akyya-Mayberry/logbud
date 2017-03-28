@@ -10,4 +10,4 @@ db = SQLAlchemy(app)
 
 # My libs
 # Load the views etc
-from app import views, forms, views
+from app import views, forms, models, admin
