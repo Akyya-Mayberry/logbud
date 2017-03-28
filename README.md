@@ -13,7 +13,13 @@ export DEBUG=1
 
   These variables informs Flask of the path to the logbud app and sets debugging to true.
 
-5. Make sure you are inside the root directory of the application where *run.py* is located, and start the application.
+5. Next we set up the database. While inside the root directory of the app where manage.py is located, excute the following,
+
+~~~.bash
+python manage.py db updgrade
+~~~
+
+6. Make sure you are inside the root directory of the application where *run.py* is located, and start the application.
 ~~~.bash
 flask run
 ~~~
